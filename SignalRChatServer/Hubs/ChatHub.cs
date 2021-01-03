@@ -2,13 +2,23 @@
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Linq;
 
 namespace SignalRChatServer.Hubs
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize]
     public class ChatHub : Hub
     {
+       
+           
         public override Task OnConnectedAsync()
         {
+            
             Console.WriteLine("--> Connection Opened: " + Context.ConnectionId);
             Clients.Client(Context.ConnectionId).SendAsync("ReceiveConnID", Context.ConnectionId);
             return base.OnConnectedAsync();
